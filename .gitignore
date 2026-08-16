@@ -1,0 +1,12 @@
+# 依赖目录
+node_modules/
+
+# 前端构建产物
+client/dist/
+
+# SQLite 数据库文件（本地生成，不入库）
+server/data/
+
+# 日志与临时文件
+*.log
+.env
