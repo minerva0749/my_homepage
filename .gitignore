@@ -7,6 +7,9 @@ client/dist/
 # SQLite 数据库文件（本地生成，不入库）
 server/data/
 
+# 上传的附件文件（与代码隔离，不入库）
+server/uploads/
+
 # 日志与临时文件
 *.log
 .env

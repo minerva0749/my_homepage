@@ -10,11 +10,15 @@ const cookieParser = require('cookie-parser');
 const { initDb } = require('./initDb');
 const { dbPath } = require('./db');
 const { cleanupExpiredSessions } = require('./auth');
+const { ensureUploadDir } = require('./uploads');
 const authRouter = require('./routes/auth');
+const postsRouter = require('./routes/posts');
+const attachmentsRouter = require('./routes/attachments');
 
-// 启动时初始化数据库（重复执行安全），并清理过期会话。
+// 启动时初始化数据库（重复执行安全）、清理过期会话、确保上传目录存在。
 initDb();
 cleanupExpiredSessions();
+ensureUploadDir();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -30,6 +34,12 @@ app.get('/api/health', (req, res) => {
 
 // 认证接口：登录 / 退出 / 当前用户。
 app.use('/api/auth', authRouter);
+
+// 动态接口（GET 公开；写操作在路由内部走 requireAuth）。
+app.use('/api/posts', postsRouter);
+
+// 附件上传与下载。
+app.use('/api', attachmentsRouter);
 
 // 未匹配的 /api 路径统一返回 404（避免被下面的 SPA 兜底吞掉）。
 app.use('/api', (req, res) => {

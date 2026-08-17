@@ -32,7 +32,7 @@ function initDb() {
 
     CREATE TABLE IF NOT EXISTS attachments (
       id          INTEGER PRIMARY KEY AUTOINCREMENT,
-      post_id     INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+      post_id     INTEGER REFERENCES posts(id) ON DELETE CASCADE,
       kind        TEXT NOT NULL,
       orig_name   TEXT NOT NULL,
       stored_name TEXT NOT NULL,
@@ -52,6 +52,28 @@ function initDb() {
       expires_at INTEGER NOT NULL
     );
   `);
+
+  // ---- 1.1 迁移：旧版 attachments.post_id 带 NOT NULL，无法先建“待关联”附件记录。
+  // 若表为空且 post_id 为 NOT NULL，则重建为可空（此阶段无历史附件数据，安全）。
+  const attCols = db.prepare('PRAGMA table_info(attachments)').all();
+  const postIdCol = attCols.find((c) => c.name === 'post_id');
+  if (postIdCol && postIdCol.notnull === 1) {
+    const attCount = db.prepare('SELECT COUNT(*) AS n FROM attachments').get().n;
+    if (attCount === 0) {
+      db.exec('DROP TABLE attachments');
+      db.exec(`
+        CREATE TABLE attachments (
+          id          INTEGER PRIMARY KEY AUTOINCREMENT,
+          post_id     INTEGER REFERENCES posts(id) ON DELETE CASCADE,
+          kind        TEXT NOT NULL,
+          orig_name   TEXT NOT NULL,
+          stored_name TEXT NOT NULL,
+          size        INTEGER NOT NULL,
+          created_at  TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
+    }
+  }
 
   // ---- 2. 写入唯一 admin 账户（已存在则跳过）----
   const existing = db
