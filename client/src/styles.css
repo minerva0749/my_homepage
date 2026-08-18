@@ -1,3 +1,52 @@
+/* ===== 主题变量（所有颜色统一在此管理，禁止散落硬编码颜色） ===== */
+:root {
+  /* 浅色主题 */
+  --bg: #eef1f5; /* 页面底色 / 背景图加载兜底 */
+  --card-bg: rgba(255, 255, 255, 0.8); /* 毛玻璃卡片底色 */
+  --input-bg: #ffffff; /* 输入框/普通按钮底色 */
+  --hover-bg: rgba(0, 0, 0, 0.05); /* 悬停底色 */
+  --text: #18191c; /* 主文字 */
+  --text-secondary: #61666d; /* 次要文字 */
+  --text-muted: #9499a0; /* 弱化文字/提示 */
+  --border: rgba(255, 255, 255, 0.5); /* 毛玻璃卡片边框 */
+  --border-strong: #dcdfe3; /* 输入框/按钮边框 */
+  --accent: #00a1d6; /* 主色/品牌/主按钮 */
+  --accent-hover: #0097c9;
+  --on-accent: #ffffff; /* 主色之上的文字 */
+  --link: #00a1d6; /* 链接/可点文字 */
+  --danger: #d33;
+  --success: #52c41a;
+  --pin-bg: #fff7e6;
+  --pin-border: #ffd591;
+  --pin-text: #fa8c16;
+  --overlay: rgba(0, 0, 0, 0); /* 背景图上的遮罩（浅色下无） */
+  --shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme='dark'] {
+  /* 深色主题（全站默认） */
+  --bg: #0e1116;
+  --card-bg: rgba(28, 32, 42, 0.72);
+  --input-bg: #1c202a;
+  --hover-bg: rgba(255, 255, 255, 0.08);
+  --text: #e6e8eb;
+  --text-secondary: #b0b5bd;
+  --text-muted: #7a8088;
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.18);
+  --accent: #0ea5e9;
+  --accent-hover: #38bdf8;
+  --on-accent: #ffffff;
+  --link: #4fc3f7;
+  --danger: #ff6b6b;
+  --success: #5bd66b;
+  --pin-bg: rgba(250, 140, 22, 0.16);
+  --pin-border: rgba(250, 140, 22, 0.4);
+  --pin-text: #ffb25c;
+  --overlay: rgba(0, 0, 0, 0.5); /* 深色下压暗背景，突出内容 */
+  --shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
 /* ===== 全局基础样式 ===== */
 * {
   box-sizing: border-box;
@@ -10,8 +59,8 @@ body {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  background: #0ea5e9;
-  color: #18191c;
+  background: var(--bg);
+  color: var(--text);
   -webkit-font-smoothing: antialiased;
 }
 a {
@@ -26,6 +75,39 @@ textarea {
   font-family: inherit;
 }
 
+/* 主题切换时的平滑过渡 */
+body,
+a,
+button,
+input,
+textarea,
+.topnav,
+.site-bg,
+.site-bg-overlay,
+.btn,
+.btn-primary,
+.btn-link,
+.brand,
+.theme-toggle,
+.topnav .nav-links a,
+.composer,
+.post-card,
+.about-card,
+.settings-card,
+.login-card,
+.manager-item,
+.file-row,
+.feed-status,
+.feed-error,
+.pin-badge,
+.settings-input,
+.settings-textarea,
+.composer textarea,
+.edit-area textarea,
+.manager-edit textarea {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
 /* ===== 按钮 ===== */
 .btn {
   display: inline-flex;
@@ -33,29 +115,29 @@ textarea {
   justify-content: center;
   padding: 7px 14px;
   border-radius: 6px;
-  border: 1px solid #dcdfe3;
-  background: #fff;
-  color: #18191c;
+  border: 1px solid var(--border-strong);
+  background: var(--input-bg);
+  color: var(--text);
   font-size: 14px;
   line-height: 1.2;
 }
 .btn:hover {
-  border-color: #00a1d6;
-  color: #00a1d6;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 .btn-primary {
-  background: #00a1d6;
-  border-color: #00a1d6;
-  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
 }
 .btn-primary:hover {
-  background: #0097c9;
-  border-color: #0097c9;
-  color: #fff;
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--on-accent);
 }
 .btn-sm {
   padding: 4px 10px;
@@ -64,18 +146,31 @@ textarea {
 .btn-link {
   border: none;
   background: none;
-  color: #61666d;
+  color: var(--text-secondary);
   padding: 4px 8px;
   font-size: 13px;
 }
 .btn-link:hover {
-  color: #00a1d6;
+  color: var(--accent);
 }
 .btn-link.danger {
-  color: #d33;
+  color: var(--danger);
 }
-.btn-link.danger:hover {
-  color: #c00;
+
+/* ===== 主题切换按钮 ===== */
+.theme-toggle {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  line-height: 1;
+  padding: 6px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.theme-toggle:hover {
+  background: var(--hover-bg);
 }
 
 /* ===== 顶部固定导航 ===== */
@@ -88,15 +183,15 @@ textarea {
   gap: 20px;
   height: 56px;
   padding: 0 24px;
-  background: rgba(255, 255, 255, 0.72);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid var(--border);
 }
 .topnav .brand {
   font-size: 18px;
   font-weight: 700;
-  color: #00a1d6;
+  color: var(--accent);
   white-space: nowrap;
 }
 .topnav .nav-links {
@@ -107,15 +202,15 @@ textarea {
 .topnav .nav-links a {
   padding: 6px 12px;
   border-radius: 6px;
-  color: #61666d;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 .topnav .nav-links a:hover {
-  color: #00a1d6;
-  background: #f1f2f3;
+  color: var(--accent);
+  background: var(--hover-bg);
 }
 .topnav .nav-links a.active {
-  color: #00a1d6;
+  color: var(--accent);
   font-weight: 600;
 }
 .topnav .auth-area {
@@ -126,7 +221,7 @@ textarea {
   white-space: nowrap;
 }
 .topnav .auth-area .who {
-  color: #61666d;
+  color: var(--text-secondary);
 }
 
 /* ===== 全站全屏背景层 ===== */
@@ -134,10 +229,15 @@ textarea {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-color: #0ea5e9; /* 图片加载期间的纯色兜底，避免白屏闪烁 */
+  background-color: var(--bg); /* 图片加载期间的纯色兜底，避免白屏闪烁 */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+}
+.site-bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay);
 }
 .app-content {
   position: relative;
@@ -153,10 +253,10 @@ textarea {
 
 /* ===== 发布框 ===== */
 .composer {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 16px;
 }
@@ -164,15 +264,16 @@ textarea {
   width: 100%;
   min-height: 96px;
   resize: vertical;
-  border: 1px solid #dcdfe3;
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   padding: 10px;
   font-size: 15px;
-  color: #18191c;
+  color: var(--text);
+  background: var(--input-bg);
 }
 .composer textarea:focus {
   outline: none;
-  border-color: #00a1d6;
+  border-color: var(--accent);
 }
 .composer-toolbar {
   display: flex;
@@ -186,25 +287,25 @@ textarea {
   align-items: center;
   gap: 4px;
   padding: 6px 12px;
-  border: 1px solid #dcdfe3;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
-  background: #fff;
-  color: #61666d;
+  background: var(--input-bg);
+  color: var(--text-secondary);
   font-size: 14px;
   cursor: pointer;
 }
 .composer-toolbar .file-btn:hover {
-  border-color: #00a1d6;
-  color: #00a1d6;
+  border-color: var(--accent);
+  color: var(--accent);
 }
 .composer-toolbar .composer-hint {
   flex: 1;
-  color: #9499a0;
+  color: var(--text-muted);
   font-size: 12px;
   min-width: 160px;
 }
 .composer-error {
-  color: #d33;
+  color: var(--danger);
   margin-top: 10px;
   font-size: 14px;
 }
@@ -225,7 +326,7 @@ textarea {
   height: 100%;
   object-fit: cover;
   border-radius: 6px;
-  border: 1px solid #e3e5e7;
+  border: 1px solid var(--border-strong);
   display: block;
 }
 .preview-image .remove {
@@ -251,10 +352,10 @@ textarea {
   margin-top: 16px;
 }
 .post-card {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 16px;
   margin-bottom: 12px;
@@ -265,20 +366,20 @@ textarea {
   gap: 8px;
 }
 .pin-badge {
-  background: #fff7e6;
-  color: #fa8c16;
-  border: 1px solid #ffd591;
+  background: var(--pin-bg);
+  color: var(--pin-text);
+  border: 1px solid var(--pin-border);
   border-radius: 4px;
   font-size: 12px;
   padding: 0 6px;
   line-height: 18px;
 }
 .post-time {
-  color: #9499a0;
+  color: var(--text-muted);
   font-size: 12px;
 }
 .edited-tag {
-  color: #9499a0;
+  color: var(--text-muted);
   font-size: 12px;
 }
 .post-content {
@@ -287,18 +388,16 @@ textarea {
   line-height: 1.6;
   margin-top: 8px;
   font-size: 15px;
+  color: var(--text);
 }
 .expand-btn {
   border: none;
   background: none;
-  color: #00a1d6;
+  color: var(--link);
   padding: 0;
   margin-top: 4px;
   font-size: 14px;
   cursor: pointer;
-}
-.expand-btn:hover {
-  color: #0097c9;
 }
 
 .images-grid {
@@ -312,7 +411,7 @@ textarea {
   aspect-ratio: 1 / 1;
   overflow: hidden;
   border-radius: 6px;
-  background: #f1f2f3;
+  background: var(--hover-bg);
   cursor: zoom-in;
 }
 .img-cell img {
@@ -332,10 +431,13 @@ textarea {
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 8px 10px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+}
+[data-theme='dark'] .file-row {
+  background: rgba(255, 255, 255, 0.05);
 }
 .file-row .file-icon {
   font-size: 18px;
@@ -348,16 +450,17 @@ textarea {
 }
 .file-row .file-name {
   font-size: 14px;
+  color: var(--text);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 .file-row .file-size {
   font-size: 12px;
-  color: #9499a0;
+  color: var(--text-muted);
 }
 .file-row a {
-  color: #00a1d6;
+  color: var(--link);
   font-size: 13px;
   white-space: nowrap;
 }
@@ -367,22 +470,24 @@ textarea {
   gap: 4px;
   margin-top: 12px;
   padding-top: 10px;
-  border-top: 1px solid #f1f2f3;
+  border-top: 1px solid var(--border);
 }
 
 .edit-area textarea {
   width: 100%;
   min-height: 90px;
   resize: vertical;
-  border: 1px solid #dcdfe3;
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   padding: 10px;
   font-size: 15px;
   margin-top: 8px;
+  color: var(--text);
+  background: var(--input-bg);
 }
 .edit-area textarea:focus {
   outline: none;
-  border-color: #00a1d6;
+  border-color: var(--accent);
 }
 .edit-actions {
   display: flex;
@@ -390,7 +495,7 @@ textarea {
   margin-top: 8px;
 }
 .inline-error {
-  color: #d33;
+  color: var(--danger);
   font-size: 13px;
   margin-top: 6px;
 }
@@ -404,31 +509,31 @@ textarea {
   margin-top: 8px;
 }
 .pagination .page-info {
-  color: #61666d;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 /* ===== 状态提示 ===== */
 .feed-status {
   text-align: center;
-  color: #61666d;
+  color: var(--text-secondary);
   padding: 48px 16px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 10px;
 }
 .feed-error {
-  color: #d33;
+  color: var(--danger);
   text-align: center;
   padding: 24px 16px;
-  background: rgba(255, 255, 255, 0.7);
+  background: var(--card-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 10px;
 }
 
-/* ===== Toast 轻提示 ===== */
+/* ===== Toast 轻提示（叠加层，深浅色通用） ===== */
 .toast {
   position: fixed;
   top: 70px;
@@ -442,7 +547,7 @@ textarea {
   z-index: 200;
 }
 
-/* ===== 图片查看浮层 ===== */
+/* ===== 图片查看浮层（叠加层，深浅色通用） ===== */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -471,10 +576,10 @@ textarea {
 
 /* ===== 作者简介页 ===== */
 .about-card {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 24px;
   margin-top: 16px;
@@ -483,22 +588,24 @@ textarea {
   margin: 0 0 12px;
   font-size: 22px;
   font-weight: 700;
+  color: var(--text);
 }
 .about-bio {
   white-space: pre-wrap;
   word-break: break-word;
   line-height: 1.7;
-  color: #18191c;
+  color: var(--text);
   font-size: 15px;
 }
 .about-bio-empty {
-  color: #9499a0;
+  color: var(--text-muted);
 }
 
 /* ===== 动态卡片署名 ===== */
 .post-author {
   font-weight: 600;
   font-size: 14px;
+  color: var(--text);
 }
 
 /* ===== 网页设置页 ===== */
@@ -506,12 +613,13 @@ textarea {
   font-size: 24px;
   font-weight: 700;
   margin: 8px 0 16px;
+  color: var(--text);
 }
 .settings-card {
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 16px;
@@ -520,38 +628,41 @@ textarea {
   margin: 0 0 14px;
   font-size: 18px;
   font-weight: 700;
+  color: var(--text);
 }
 .settings-label {
   display: block;
   font-size: 14px;
-  color: #61666d;
+  color: var(--text-secondary);
   margin: 10px 0 6px;
 }
 .settings-input {
   width: 100%;
   padding: 8px 10px;
-  border: 1px solid #dcdfe3;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   font-size: 14px;
-  color: #18191c;
+  color: var(--text);
+  background: var(--input-bg);
 }
 .settings-input:focus {
   outline: none;
-  border-color: #00a1d6;
+  border-color: var(--accent);
 }
 .settings-textarea {
   width: 100%;
   padding: 8px 10px;
-  border: 1px solid #dcdfe3;
+  border: 1px solid var(--border-strong);
   border-radius: 6px;
   font-size: 14px;
-  color: #18191c;
+  color: var(--text);
+  background: var(--input-bg);
   resize: vertical;
   min-height: 80px;
 }
 .settings-textarea:focus {
   outline: none;
-  border-color: #00a1d6;
+  border-color: var(--accent);
 }
 .settings-actions {
   margin-top: 12px;
@@ -560,24 +671,24 @@ textarea {
   align-items: center;
 }
 .settings-hint {
-  color: #9499a0;
+  color: var(--text-muted);
   font-size: 12px;
   margin-top: 8px;
 }
 .settings-ok {
-  color: #52c41a;
+  color: var(--success);
   font-size: 14px;
   margin-top: 8px;
 }
 .settings-err {
-  color: #d33;
+  color: var(--danger);
   font-size: 14px;
   margin-top: 8px;
 }
 .settings-bg-preview {
   height: 140px;
   border-radius: 8px;
-  background-color: #0ea5e9;
+  background-color: var(--bg);
   background-size: cover;
   background-position: center;
 }
@@ -589,10 +700,13 @@ textarea {
   gap: 10px;
 }
 .manager-item {
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.15);
+}
+[data-theme='dark'] .manager-item {
+  background: rgba(255, 255, 255, 0.05);
 }
 .manager-item-head {
   display: flex;
@@ -601,7 +715,7 @@ textarea {
 }
 .manager-item-content {
   margin-top: 6px;
-  color: #18191c;
+  color: var(--text);
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
@@ -611,24 +725,26 @@ textarea {
   width: 100%;
   min-height: 70px;
   resize: vertical;
-  border: 1px solid #dcdfe3;
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
   padding: 8px 10px;
   font-size: 14px;
+  color: var(--text);
+  background: var(--input-bg);
 }
 .manager-edit textarea:focus {
   outline: none;
-  border-color: #00a1d6;
+  border-color: var(--accent);
 }
 
 /* ===== 登录页 ===== */
 .login-card {
   max-width: 360px;
   margin: 48px auto 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--card-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 24px;
 }
@@ -636,4 +752,25 @@ textarea {
   margin: 0 0 16px;
   font-size: 22px;
   font-weight: 700;
+  color: var(--text);
+}
+
+/* ===== 卡片阴影（统一用变量，深色下更明显） ===== */
+.post-card,
+.composer,
+.about-card,
+.settings-card,
+.login-card {
+  box-shadow: var(--shadow);
+}
+
+/* ===== 覆盖浏览器自动填充的浅色背景（深色模式下会发白刺眼） ===== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  box-shadow: 0 0 0 1000px var(--input-bg) inset;
+  caret-color: var(--text);
+  transition: background-color 600000s 0s, color 600000s 0s;
 }

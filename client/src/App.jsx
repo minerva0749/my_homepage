@@ -1,6 +1,7 @@
 import { Routes, Route, NavLink, Link, Navigate } from 'react-router-dom';
 import { useAuth } from './auth.jsx';
 import { useProfile } from './profile.jsx';
+import { useTheme } from './theme.jsx';
 import SiteBackground from './components/SiteBackground.jsx';
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
@@ -12,6 +13,7 @@ import './styles.css';
 export default function App() {
   const { user, loading, logout } = useAuth();
   const { profile } = useProfile();
+  const { theme, toggle } = useTheme();
 
   return (
     <div>
@@ -32,6 +34,14 @@ export default function App() {
             {user ? <NavLink to="/settings">网页设置</NavLink> : null}
           </nav>
           <div className="auth-area">
+            <button
+              className="theme-toggle"
+              onClick={toggle}
+              title={theme === 'dark' ? '切换到浅色' : '切换到深色'}
+              aria-label="切换主题"
+            >
+              {theme === 'dark' ? '☀️' : '🌙'}
+            </button>
             {loading ? null : user ? (
               <>
                 <span className="who">{profile?.nickname || user?.nickname}</span>

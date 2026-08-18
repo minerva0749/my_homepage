@@ -3,5 +3,9 @@
 // 背景色为纯色兜底，图片加载期间不白屏闪烁。
 export default function SiteBackground({ profile }) {
   const bg = profile?.background_image || '/placeholder-bg.svg';
-  return <div className="site-bg" style={{ backgroundImage: `url("${bg}")` }} />;
+  return (
+    <div className="site-bg" style={{ backgroundImage: `url("${bg}")` }}>
+      <div className="site-bg-overlay" />
+    </div>
+  );
 }
