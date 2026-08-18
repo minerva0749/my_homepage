@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../auth.jsx';
-import { useProfile } from '../profile.js';
+import { useProfile } from '../profile.jsx';
 import SiteBanner from '../components/SiteBanner.jsx';
 import PostComposer from '../components/PostComposer.jsx';
 import PostCard from '../components/PostCard.jsx';
@@ -12,7 +12,7 @@ const PAGE_SIZE = 10; // 文档 4.2：每页 10 条，采用页码分页（上�
 export default function Home() {
   const { user } = useAuth();
   const isAdmin = !!user;
-  const profile = useProfile();
+  const { profile } = useProfile();
 
   const [posts, setPosts] = useState([]);
   const [pagination, setPagination] = useState({
@@ -132,6 +132,7 @@ export default function Home() {
                 onEditSave={handleEditSave}
                 onDelete={handleDelete}
                 onViewImage={setLightboxSrc}
+                authorName={profile?.nickname || '个人主页'}
               />
             ))
           )}

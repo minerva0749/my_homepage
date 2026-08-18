@@ -494,3 +494,135 @@ textarea {
 .about-bio-empty {
   color: #9499a0;
 }
+
+/* ===== 动态卡片署名 ===== */
+.post-author {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ===== 网页设置页 ===== */
+.settings-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 8px 0 16px;
+}
+.settings-card {
+  background: #fff;
+  border: 1px solid #e3e5e7;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.settings-card h2 {
+  margin: 0 0 14px;
+  font-size: 18px;
+  font-weight: 700;
+}
+.settings-label {
+  display: block;
+  font-size: 14px;
+  color: #61666d;
+  margin: 10px 0 6px;
+}
+.settings-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #dcdfe3;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #18191c;
+}
+.settings-input:focus {
+  outline: none;
+  border-color: #00a1d6;
+}
+.settings-textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #dcdfe3;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #18191c;
+  resize: vertical;
+  min-height: 80px;
+}
+.settings-textarea:focus {
+  outline: none;
+  border-color: #00a1d6;
+}
+.settings-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.settings-hint {
+  color: #9499a0;
+  font-size: 12px;
+  margin-top: 8px;
+}
+.settings-ok {
+  color: #52c41a;
+  font-size: 14px;
+  margin-top: 8px;
+}
+.settings-err {
+  color: #d33;
+  font-size: 14px;
+  margin-top: 8px;
+}
+.settings-bg-preview {
+  height: 140px;
+  border-radius: 8px;
+  background-color: #00aeec;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+}
+.settings-bg-preview .hero-nickname {
+  font-size: 22px;
+}
+
+/* ===== 动态管理列表 ===== */
+.manager-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.manager-item {
+  border: 1px solid #e3e5e7;
+  border-radius: 8px;
+  padding: 12px;
+  background: #fafbfc;
+}
+.manager-item-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.manager-item-content {
+  margin-top: 6px;
+  color: #18191c;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.manager-edit textarea {
+  width: 100%;
+  min-height: 70px;
+  resize: vertical;
+  border: 1px solid #dcdfe3;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 14px;
+}
+.manager-edit textarea:focus {
+  outline: none;
+  border-color: #00a1d6;
+}

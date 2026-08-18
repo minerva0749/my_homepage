@@ -15,6 +15,7 @@ const authRouter = require('./routes/auth');
 const postsRouter = require('./routes/posts');
 const attachmentsRouter = require('./routes/attachments');
 const siteRouter = require('./routes/site');
+const settingsRouter = require('./routes/settings');
 
 // 启动时初始化数据库（重复执行安全）、清理过期会话、确保上传目录存在。
 initDb();
@@ -44,6 +45,9 @@ app.use('/api', attachmentsRouter);
 
 // 站点资料（公开）：昵称 / 简介 / 背景图。
 app.use('/api', siteRouter);
+
+// 网页设置（仅 admin）：改昵称 / 简介 / 背景图 / 密码。
+app.use('/api', settingsRouter);
 
 // 未匹配的 /api 路径统一返回 404（避免被下面的 SPA 兜底吞掉）。
 app.use('/api', (req, res) => {

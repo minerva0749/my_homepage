@@ -15,7 +15,7 @@ function foldSummary(content) {
 }
 
 // 单条动态卡片：正文（可折叠）/ 图片网格 / 文件附件，以及 admin 的操作（置顶/编辑/删除）。
-export default function PostCard({ post, isAdmin, onTogglePin, onEditSave, onDelete, onViewImage }) {
+export default function PostCard({ post, isAdmin, authorName, onTogglePin, onEditSave, onDelete, onViewImage }) {
   const [expanded, setExpanded] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(post.content || '');
@@ -60,6 +60,7 @@ export default function PostCard({ post, isAdmin, onTogglePin, onEditSave, onDel
   return (
     <article className="post-card">
       <div className="post-head">
+        {authorName ? <span className="post-author">{authorName}</span> : null}
         {post.is_pinned ? <span className="pin-badge">置顶</span> : null}
         <span className="post-time">{formatDateTime(post.created_at)}</span>
         {edited ? <span className="edited-tag">已编辑</span> : null}

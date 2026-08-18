@@ -26,6 +26,7 @@ function readProfile() {
 
 // GET /api/profile —— 公开：返回昵称 + 简介 + 背景图地址（未设置背景图时为 null）。
 router.get('/profile', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
   res.json(readProfile());
 });
 
@@ -52,6 +53,7 @@ router.get('/site/background', (req, res) => {
   const ext = path.extname(stored).toLowerCase();
   res.setHeader('Content-Type', MIME[ext] || 'application/octet-stream');
   res.setHeader('Content-Disposition', 'inline');
+  res.setHeader('Cache-Control', 'no-store');
   res.sendFile(filePath);
 });
 
