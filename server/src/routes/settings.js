@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs');
 const { db } = require('../db');
 const { requireAuth } = require('../auth');
 const { UPLOAD_DIR, IMAGE_EXTENSIONS } = require('../uploads');
+const asyncHandler = require('../asyncHandler');
 
 const router = express.Router();
 
@@ -98,7 +99,7 @@ router.post('/site/background', requireAuth, (req, res) => {
 });
 
 // PUT /api/auth/password —— 仅 admin：修改密码（验证原密码；成功后删除所有会话，强制重新登录）。
-router.put('/auth/password', requireAuth, async (req, res) => {
+router.put('/auth/password', requireAuth, asyncHandler(async (req, res) => {
   const body = req.body || {};
   const oldPassword = typeof body.oldPassword === 'string' ? body.oldPassword : '';
   const newPassword = typeof body.newPassword === 'string' ? body.newPassword : '';
@@ -125,6 +126,6 @@ router.put('/auth/password', requireAuth, async (req, res) => {
   db.prepare('DELETE FROM sessions WHERE user_id = ?').run(user.id);
 
   res.json({ ok: true });
-});
+}));
 
 module.exports = router;

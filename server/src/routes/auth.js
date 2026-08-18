@@ -3,6 +3,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const rateLimit = require('express-rate-limit');
 const { db } = require('../db');
+const asyncHandler = require('../asyncHandler');
 const {
   COOKIE_NAME,
   COOKIE_OPTIONS,
@@ -28,7 +29,7 @@ const loginLimiter = rateLimit({
 });
 
 // POST /api/auth/login —— 校验用户名密码，成功后建立 HttpOnly Cookie 会话。
-router.post('/login', loginLimiter, async (req, res) => {
+router.post('/login', loginLimiter, asyncHandler(async (req, res) => {
   const { username, password } = req.body || {};
   if (
     typeof username !== 'string' ||
@@ -65,7 +66,7 @@ router.post('/login', loginLimiter, async (req, res) => {
       bio: user.bio,
     },
   });
-});
+}));
 
 // POST /api/auth/logout —— 退出登录（删除会话 + 清除 Cookie）。
 router.post('/logout', (req, res) => {

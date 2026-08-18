@@ -70,6 +70,16 @@ app.get('*', (req, res) => {
   }
 });
 
+// 统一错误处理：任何未捕获异常都返回 JSON，不向前端泄露堆栈信息。
+app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
+  if (err && err.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: '请求体格式错误' });
+  }
+  console.error('[服务器错误]', err);
+  res.status(500).json({ error: '服务器内部错误' });
+});
+
 app.listen(PORT, () => {
   console.log(`后端已启动: http://localhost:${PORT}`);
   console.log(`健康检查:   http://localhost:${PORT}/api/health`);
