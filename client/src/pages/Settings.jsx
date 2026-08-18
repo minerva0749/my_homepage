@@ -193,9 +193,7 @@ export default function Settings() {
       {/* 更换背景图 */}
       <section className="settings-card">
         <h2>背景图</h2>
-        <div className="settings-bg-preview" style={{ backgroundImage: `url(${bgUrl})` }}>
-          <div className="hero-nickname">{profile?.nickname || '个人主页'}</div>
-        </div>
+        <div className="settings-bg-preview" style={{ backgroundImage: `url(${bgUrl})` }} />
         <div className="settings-hint">支持 JPG / PNG / WebP，≤ 10MB；上传后主页与简介页立即同步。</div>
         <div className="settings-actions">
           <label className="btn btn-sm">

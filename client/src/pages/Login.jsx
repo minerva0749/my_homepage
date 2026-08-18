@@ -26,36 +26,34 @@ export default function Login() {
   }
 
   return (
-    <main style={{ padding: '16px' }}>
-      <h1>登录</h1>
-      <form onSubmit={handleSubmit}>
-        <div style={{ margin: '8px 0' }}>
-          <label>
-            账号：
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
-            />
-          </label>
-        </div>
-        <div style={{ margin: '8px 0' }}>
-          <label>
-            密码：
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-            />
-          </label>
-        </div>
-        {error ? <p style={{ color: 'red' }}>{error}</p> : null}
-        <button type="submit" disabled={submitting}>
-          {submitting ? '登录中…' : '登录'}
-        </button>
-      </form>
+    <main className="page">
+      <div className="login-card">
+        <h1 className="login-title">登录</h1>
+        <form onSubmit={handleSubmit}>
+          <label className="settings-label">账号</label>
+          <input
+            className="settings-input"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+          />
+          <label className="settings-label">密码</label>
+          <input
+            className="settings-input"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+          />
+          {error ? <div className="settings-err">{error}</div> : null}
+          <div className="settings-actions">
+            <button className="btn btn-primary" type="submit" disabled={submitting}>
+              {submitting ? '登录中…' : '登录'}
+            </button>
+          </div>
+        </form>
+      </div>
     </main>
   );
 }

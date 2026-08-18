@@ -10,7 +10,7 @@ body {
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
     "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-  background: #f4f5f7;
+  background: #0ea5e9;
   color: #18191c;
   -webkit-font-smoothing: antialiased;
 }
@@ -88,8 +88,10 @@ textarea {
   gap: 20px;
   height: 56px;
   padding: 0 24px;
-  background: #fff;
-  border-bottom: 1px solid #e3e5e7;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
 .topnav .brand {
   font-size: 18px;
@@ -127,35 +129,19 @@ textarea {
   color: #61666d;
 }
 
-/* ===== 背景图横幅（未设置站点背景图时用占位图 placeholder-bg.svg） ===== */
-.hero {
-  position: relative;
-  width: 100%;
-  height: 220px;
-  background-color: #00aeec;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
-}
-.hero-bg {
-  position: absolute;
+/* ===== 全站全屏背景层 ===== */
+.site-bg {
+  position: fixed;
   inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  z-index: 0;
+  background-color: #0ea5e9; /* 图片加载期间的纯色兜底，避免白屏闪烁 */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
-.hero-inner {
+.app-content {
   position: relative;
-  max-width: 720px;
-  margin: 0 auto;
-  width: 100%;
-  padding: 0 16px 20px;
-}
-.hero-nickname {
-  color: #fff;
-  font-size: 30px;
-  font-weight: 700;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  z-index: 1;
 }
 
 /* ===== 页面容器 ===== */
@@ -167,8 +153,10 @@ textarea {
 
 /* ===== 发布框 ===== */
 .composer {
-  background: #fff;
-  border: 1px solid #e3e5e7;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   padding: 16px;
 }
@@ -263,8 +251,10 @@ textarea {
   margin-top: 16px;
 }
 .post-card {
-  background: #fff;
-  border: 1px solid #e3e5e7;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   padding: 16px;
   margin-bottom: 12px;
@@ -342,10 +332,10 @@ textarea {
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid #e3e5e7;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 8px;
   padding: 8px 10px;
-  background: #fafbfc;
+  background: rgba(255, 255, 255, 0.6);
 }
 .file-row .file-icon {
   font-size: 18px;
@@ -421,13 +411,21 @@ textarea {
 /* ===== 状态提示 ===== */
 .feed-status {
   text-align: center;
-  color: #9499a0;
-  padding: 48px 0;
+  color: #61666d;
+  padding: 48px 16px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
 }
 .feed-error {
   color: #d33;
   text-align: center;
-  padding: 24px 0;
+  padding: 24px 16px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 10px;
 }
 
 /* ===== Toast 轻提示 ===== */
@@ -473,8 +471,10 @@ textarea {
 
 /* ===== 作者简介页 ===== */
 .about-card {
-  background: #fff;
-  border: 1px solid #e3e5e7;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   padding: 24px;
   margin-top: 16px;
@@ -508,8 +508,10 @@ textarea {
   margin: 8px 0 16px;
 }
 .settings-card {
-  background: #fff;
-  border: 1px solid #e3e5e7;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 10px;
   padding: 20px;
   margin-bottom: 16px;
@@ -575,17 +577,9 @@ textarea {
 .settings-bg-preview {
   height: 140px;
   border-radius: 8px;
-  background-color: #00aeec;
+  background-color: #0ea5e9;
   background-size: cover;
   background-position: center;
-  display: flex;
-  align-items: flex-end;
-  padding: 12px;
-  overflow: hidden;
-  position: relative;
-}
-.settings-bg-preview .hero-nickname {
-  font-size: 22px;
 }
 
 /* ===== 动态管理列表 ===== */
@@ -595,10 +589,10 @@ textarea {
   gap: 10px;
 }
 .manager-item {
-  border: 1px solid #e3e5e7;
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 8px;
   padding: 12px;
-  background: #fafbfc;
+  background: rgba(255, 255, 255, 0.6);
 }
 .manager-item-head {
   display: flex;
@@ -625,4 +619,21 @@ textarea {
 .manager-edit textarea:focus {
   outline: none;
   border-color: #00a1d6;
+}
+
+/* ===== 登录页 ===== */
+.login-card {
+  max-width: 360px;
+  margin: 48px auto 0;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  padding: 24px;
+}
+.login-title {
+  margin: 0 0 16px;
+  font-size: 22px;
+  font-weight: 700;
 }

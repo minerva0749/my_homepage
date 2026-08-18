@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../auth.jsx';
 import { useProfile } from '../profile.jsx';
-import SiteBanner from '../components/SiteBanner.jsx';
 import PostComposer from '../components/PostComposer.jsx';
 import PostCard from '../components/PostCard.jsx';
 import Lightbox from '../components/Lightbox.jsx';
 
 const PAGE_SIZE = 10; // 文档 4.2：每页 10 条，采用页码分页（上一页/下一页）。
 
-// 动态主页：站点横幅 + 发布框（仅 admin）+ 动态流 + 分页。
+// 动态主页：发布框（仅 admin）+ 动态流 + 分页（背景为全站共用的全屏背景层）。
 export default function Home() {
   const { user } = useAuth();
   const isAdmin = !!user;
@@ -103,8 +102,6 @@ export default function Home() {
 
   return (
     <div>
-      <SiteBanner profile={profile} />
-
       <div className="page">
         {isAdmin ? <PostComposer onPublished={handlePublished} /> : null}
 
