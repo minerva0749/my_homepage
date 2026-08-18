@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../auth.jsx';
+import { useProfile } from '../profile.js';
+import SiteBanner from '../components/SiteBanner.jsx';
 import PostComposer from '../components/PostComposer.jsx';
 import PostCard from '../components/PostCard.jsx';
 import Lightbox from '../components/Lightbox.jsx';
 
 const PAGE_SIZE = 10; // 文档 4.2：每页 10 条，采用页码分页（上一页/下一页）。
 
-// 动态主页：背景图横幅 + 发布框（仅 admin）+ 动态流 + 分页。
+// 动态主页：站点横幅 + 发布框（仅 admin）+ 动态流 + 分页。
 export default function Home() {
   const { user } = useAuth();
   const isAdmin = !!user;
+  const profile = useProfile();
 
   const [posts, setPosts] = useState([]);
   const [pagination, setPagination] = useState({
@@ -24,9 +27,6 @@ export default function Home() {
   const [toast, setToast] = useState('');
   const [lightboxSrc, setLightboxSrc] = useState(null);
   const toastTimer = useRef(null);
-
-  // 横幅昵称：登录时用 admin 昵称；访客暂时显示站名（后续设置阶段提供公开昵称接口）。
-  const displayName = user?.nickname || '个人主页';
 
   function showToast(msg) {
     setToast(msg);
@@ -103,11 +103,7 @@ export default function Home() {
 
   return (
     <div>
-      <section className="hero">
-        <div className="hero-inner">
-          <div className="hero-nickname">{displayName}</div>
-        </div>
-      </section>
+      <SiteBanner profile={profile} />
 
       <div className="page">
         {isAdmin ? <PostComposer onPublished={handlePublished} /> : null}
