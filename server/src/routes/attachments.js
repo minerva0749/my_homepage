@@ -19,6 +19,9 @@ const router = express.Router();
 
 // multer：存到上传目录，文件名 UUID 化（保留扩展名仅用于下载时识别类型）。
 const upload = multer({
+  // 关键：按 UTF-8 解码 multipart 头里的文件名。multer/busboy 默认用 latin1，
+  // 会导致中文文件名变成乱码（文件内容不受影响，仅文件名乱码）。
+  defParamCharset: 'utf8',
   storage: multer.diskStorage({
     destination: (req, file, cb) => cb(null, UPLOAD_DIR),
     filename: (req, file, cb) => {
@@ -119,6 +122,39 @@ router.get('/attachments/:id/download', (req, res) => {
 
   // res.download 会设置 Content-Disposition: attachment，浏览器只下载、不解析执行。
   res.download(filePath, att.orig_name);
+});
+
+// GET /api/attachments/:id/view —— 公开，图片内联展示（供前端 <img> 加载缩略图/原图）。
+// 与 download 的区别：download 强制 Content-Disposition: attachment（浏览器下载）；
+// view 仅对图片返回 inline，浏览器直接渲染。仅新增，不影响既有接口。
+router.get('/attachments/:id/view', (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ error: '无效的附件 id' });
+  }
+  const att = db
+    .prepare('SELECT id, kind, orig_name, stored_name FROM attachments WHERE id = ?')
+    .get(id);
+  if (!att) return res.status(404).json({ error: '附件不存在' });
+  if (att.kind !== 'image') {
+    return res.status(400).json({ error: '不是图片附件' });
+  }
+
+  const filePath = path.join(UPLOAD_DIR, path.basename(att.stored_name));
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ error: '文件不存在' });
+  }
+
+  const MIME = {
+    '.jpg': 'image/jpeg',
+    '.jpeg': 'image/jpeg',
+    '.png': 'image/png',
+    '.webp': 'image/webp',
+  };
+  const ext = path.extname(att.stored_name).toLowerCase();
+  res.setHeader('Content-Type', MIME[ext] || 'application/octet-stream');
+  res.setHeader('Content-Disposition', 'inline');
+  res.sendFile(filePath);
 });
 
 module.exports = router;
